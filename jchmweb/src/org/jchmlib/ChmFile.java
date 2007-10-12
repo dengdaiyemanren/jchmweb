@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 
 import org.jchmlib.search.IndexSearcher;
 import org.jchmlib.util.ByteBufferHelper;
-import org.jchmlib.util.EncodingUtil;
+import org.jchmlib.util.EncodingHelper;
 import org.jchmlib.util.LZXInflator;
 
 /**
@@ -185,7 +185,7 @@ public class ChmFile {
         
         // if the index root is -1, this means we don't have any PMGI blocks.
         // as a result, we must use the sole PMGL block as the index root
-        if (index_root == -1)
+        if (index_root <= -1)
             index_root = index_head;
     }
     
@@ -220,6 +220,7 @@ public class ChmFile {
     }
     
     private void readResetTable() throws IOException {
+        // TODO: if compression is not enabled...
         // initialize content_offset first
         content_offset = (int)resolveObject(CHMU_CONTENT).start;
         
@@ -291,11 +292,12 @@ public class ChmFile {
                     break;
                 case 3:
                     title = ByteBufferHelper.parseString(buf, len, codec);
+                    title = title.substring(0, title.length() -1);
                     System.out.println("title: " + title);
                     break;
                 case 4:
                     detectedLCID = buf.getShort();
-                    codec = EncodingUtil.findCodec(detectedLCID);
+                    codec = EncodingHelper.findCodec(detectedLCID);
                     // System.out.println("detectedLCID:" + Integer.toHexString(detectedLCID));
                     System.out.println("Encoding: " + codec);
                     data = parseString(buf, len-2);

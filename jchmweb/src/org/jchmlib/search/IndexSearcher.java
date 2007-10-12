@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 import org.jchmlib.ChmFile;
 import org.jchmlib.ChmFtsHeader;
 import org.jchmlib.ChmUnitInfo;
+import org.jchmlib.util.BitReader;
+
 import org.jchmlib.util.ByteBufferHelper;
 import org.jchmlib.util.GBKHelper;
 
@@ -197,6 +199,7 @@ public class IndexSearcher {
                 wlc_bit = 7;
             }
 
+            BitReader.init(buffer);
             index += ByteBufferHelper.sr_int(buffer,
                     wlc_bit,
                     header.doc_index_s,
