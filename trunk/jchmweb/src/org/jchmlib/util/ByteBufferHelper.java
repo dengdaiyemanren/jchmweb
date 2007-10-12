@@ -9,6 +9,7 @@ package org.jchmlib.util;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
+import org.jchmlib.util.BitReader;
 /**
  * ByteBufferHelper provides some ByteBuffer-relating methods.
  *
@@ -21,7 +22,7 @@ public class ByteBufferHelper
     public static long parseCWord(ByteBuffer bb) {
         long accum = 0;
         byte temp = bb.get();
-        while (temp < 0) {
+        while (temp < 0) {  // if the most significant bit is 1
             accum <<= 7;
             accum += temp & 0x7f;
             temp = bb.get();
@@ -65,8 +66,7 @@ public class ByteBufferHelper
         
         if (bit > 7 || s != 2)
             return ~(long)0;
-
-        BitReader.init(bb);        
+        
         while (BitReader.readBits(1) == 1) {
             count++;
         }
@@ -144,83 +144,5 @@ public class ByteBufferHelper
         return result;
     }
 
-    /**
-     * Bitstream reader.
-     */
-    private static class BitReader {
-
-        public static int bitBuffer;
-        public static int bitsBuffered;
-        public static ByteBuffer byteBuffer;
-        
-        /**
-         * should be used first to set up the system
-         */
-        public static void init(ByteBuffer bb) {
-            byteBuffer = bb;
-            bitBuffer = 0;
-            bitsBuffered = 0;
-        }
-
-        /**
-         * Set up the system.
-         * @param bitb bit buffer
-         * @param bl   bits buffered
-         * @param byteb byte buffer
-         */
-        public static void init(int bitb, int bl, ByteBuffer byteb) {
-            byteBuffer = byteb;
-            bitBuffer = bitb;
-            bitsBuffered = bl;
-        }
-
-        /**
-         * Ensures there are at least n bits in the bit buffer 
-         */
-        public static void ensureBits(int n) {
-            int bits;
-            System.out.println("So n=" + n);
-            while (bitsBuffered < n) {
-                bits = readc() & 0xFF;
-                bitBuffer |= (bits) << (24 - bitsBuffered);
-                bitsBuffered += 8;
-            }
-        }
-
-        /**
-         * Extracts (without removing) N bits from the bit buffer 
-         */
-        public static int peekBits(int n) {
-            return (int)(bitBuffer >>> (32 - n));
-        }
-
-        /**
-         * Removes N bits from the bit buffer.
-         */
-        public static void removeBits(int n) {
-            bitBuffer <<= n;
-            bitsBuffered -= n;
-        }
-
-        /**
-         * Takes N bits from the buffer. 
-         */
-        public static int readBits(int n) {
-            ensureBits(n);
-            int result = peekBits(n);
-            removeBits(n);
-            return result;
-        }
-
-        public static int readc() {
-            if (byteBuffer.hasRemaining()) {
-                return byteBuffer.get();
-            }
-            return -1;
-        }
-
-    }
-
-    
 }
 

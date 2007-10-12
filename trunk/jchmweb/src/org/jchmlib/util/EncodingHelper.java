@@ -20,7 +20,7 @@ class EncodingTable {
     }
 }
 
-public class EncodingUtil
+public class EncodingHelper
 { 
     static EncodingTable[] encodingTable  = new EncodingTable[]
     {
@@ -194,13 +194,6 @@ public class EncodingUtil
         }
         return 0;        
     }
-
-    String  charset;
-    String  country;
-    int     lcid;
-    int     codepage;
-    int     icharset;
-    String  codec;
 
 }
 

@@ -43,13 +43,13 @@ class ChmItsfHeader {
 
     public String toString() {
         return signature + 
-            "\n\t version:        " + Integer.toHexString(version) + 
-            "\n\t header_len:     " + Integer.toHexString(header_len) +
-            "\n\t lang_id:        " + Integer.toHexString(lang_id) + 
-            "\n\t unknown_offset: " + Long.toHexString(unknown_offset) + 
-            "\n\t unknown_len:    " + Long.toHexString(unknown_len) + 
-            "\n\t dir_offset:     " + Long.toHexString(dir_offset) + 
-            "\n\t dir_len:        " + Long.toHexString(dir_len) + 
-            "\n\t data_offset:    " + Long.toHexString(data_offset);
+        "\n\t version:        0x" + Integer.toHexString(version) + " (" + version + ")" +
+        "\n\t header_len:     0x" + Integer.toHexString(header_len) + " (" + header_len + ")" +
+        "\n\t lang_id:        0x" + Integer.toHexString(lang_id) + " (" + lang_id + ")" +
+        "\n\t unknown_offset: 0x" + Long.toHexString(unknown_offset) + " (" + unknown_offset + ")" +
+        "\n\t unknown_len:    0x" + Long.toHexString(unknown_len) + " (" + unknown_len + ")" +
+        "\n\t dir_offset:     0x" + Long.toHexString(dir_offset) + " (" + dir_offset + ")" +
+        "\n\t dir_len:        0x" + Long.toHexString(dir_len) + " (" + dir_len + ")" +
+        "\n\t data_offset:    0x" + Long.toHexString(data_offset)+ " (" + data_offset + ")";
     }
 }

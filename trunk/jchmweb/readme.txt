@@ -1,6 +1,6 @@
 JChmLib
 
-version: 0.3 (2006-09-17)
+version: 0.4 (2007-10-12)
 
 一、JChmLib 简介
 
@@ -47,7 +47,6 @@ Server started. Now open your browser and type
 http://localhost:8080/@index.html
 左边的框架中会显示目录树，右边的框架会显示 Chm 文件的首页（起始页面）。
 
-希望你能到论坛（http://gro.clinux.org/forum/?group_id=886）发发牢骚，提提意见。也可以发邮件给我：
 
 Chimen Chen
 chimenchen@gmail.com
