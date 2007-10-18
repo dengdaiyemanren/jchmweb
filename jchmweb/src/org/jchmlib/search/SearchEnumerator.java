@@ -1,4 +1,4 @@
-/* SearchEnumerator.java 2006/08/22
+/* SearchEnumerator.java 2007/10/12
  *
  * Copyright 2006 Chimen Chen. All rights reserved.
  *
