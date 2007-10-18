@@ -1,4 +1,4 @@
-/* ByteBufferHelper.java 06/08/22
+/* ByteBufferHelper.java 2007/10/18
  *
  * Copyright 2006 Chimen Chen. All rights reserved.
  *
@@ -8,6 +8,7 @@ package org.jchmlib.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import org.jchmlib.util.BitReader;
 /**
@@ -17,6 +18,19 @@ import org.jchmlib.util.BitReader;
 public class ByteBufferHelper
 { 
     /**
+     * get a big-endian int from a little-endian ByteBuffer 
+     */
+    public static int parseBigEndianInt(ByteBuffer bb)
+    {
+    	int result;
+    	ByteOrder origOrder = bb.order();
+        bb.order(ByteOrder.BIG_ENDIAN);
+        result = bb.getInt();
+        bb.order(origOrder);
+        return result;
+    }
+ 
+	/**
      * parse a compressed dword (a variant length integer)
      */
     public static long parseCWord(ByteBuffer bb) {

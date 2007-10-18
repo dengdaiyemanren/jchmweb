@@ -1,4 +1,4 @@
-/* ChmFile.java 2006/05/25
+/* ChmFile.java 2007/10/12
  *
  * Copyright 2006 Chimen Chen. All rights reserved.
  *
