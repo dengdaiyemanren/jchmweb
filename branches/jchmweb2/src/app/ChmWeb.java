@@ -1,6 +1,7 @@
 /* ChmEnumerator.java 06/05/25
  *
  * Copyright 2006 Chimen Chen. All rights reserved.
+ * Modified by Arthur Khusnutdinov, March 2011.
  *
  */
 
