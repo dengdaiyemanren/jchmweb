@@ -53,7 +53,7 @@ public class ChmWeb extends Thread
             System.out.println("Server started. Now open your browser " +
                 "and type\n\t http://localhost:" + servPort);
         }
-        catch(IOException e) {System.err.println(e);}
+        catch(IOException e) {e.printStackTrace();}
         
         //Start running Server thread
         this.start();
@@ -258,7 +258,7 @@ class Connection extends Thread
         }
 
         // get the extention
-        int indexDot = requestedFile.indexOf(".");
+        int indexDot = requestedFile.lastIndexOf(".");
         if (indexDot == -1) indexDot = 0;
         String ext = requestedFile.substring(indexDot, requestedFile.length());
 
@@ -302,7 +302,7 @@ class Connection extends Thread
         }
 
         // get the extention
-        int indexDot = requestedFile.indexOf(".");
+        int indexDot = requestedFile.lastIndexOf(".");
         if (indexDot == -1) indexDot = 0;
         String ext = requestedFile.substring(indexDot, requestedFile.length());
 
