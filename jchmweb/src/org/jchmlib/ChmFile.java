@@ -231,12 +231,20 @@ public class ChmFile {
         
         block_len = (int) reset_table.block_len;
         
-        resetTable = new long[reset_table.block_count + 1];
+        int block_count = reset_table.block_count;
+
+        /* each entry in the reset table is 8-bytes long */
+        long bytes_to_read = block_count * 8;
+        if (bytes_to_read + CHM_LZXC_RESETTABLE_V1_LEN > rt_ui.length) {
+        	bytes_to_read = rt_ui.length - CHM_LZXC_RESETTABLE_V1_LEN;
+        	block_count = (int) bytes_to_read / 8;
+        }
         sbuf = fetchBytes(data_offset + rt_ui.start 
             + reset_table.table_offset,
-            reset_table.block_count * 16);
+            bytes_to_read);
         
-        for (int i=0; i<reset_table.block_count; i++) {
+        resetTable = new long[block_count + 1];
+        for (int i=0; i<block_count; i++) {
             resetTable[i] = data_offset + content_offset + sbuf.getLong();
         }
         resetTable[reset_table.block_count] = data_offset + content_offset +
