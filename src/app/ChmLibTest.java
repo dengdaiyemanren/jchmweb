@@ -1,5 +1,6 @@
 package app;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
@@ -17,27 +18,27 @@ public class ChmLibTest {
             int gotLen;
             
         if (argv.length < 3) {
-            System.out.println("Usage: ChmLibTest <chmfile> <filename> <destfile>");
+            ParamsClass.logger.fatal("Usage: ChmLibTest <chmfile> <filename> <destfile>");
             return;
         }
 
         chmFile = new ChmFile(argv[0]);
         
-        System.out.println("Resolving " + argv[1]);
+        ParamsClass.logger.info("Resolving " + argv[1]);
 
         ui = chmFile.resolveObject(argv[1]);
         if (ui != null) {
 
-            System.out.println("Extracting to " + argv[2]);
+            ParamsClass.logger.info("Extracting to " + argv[2]);
             buffer = chmFile.retrieveObject(ui, 0, ui.length);
             if (buffer == null) {
-                System.out.println("    extract failed on " + ui.path);
+                ParamsClass.logger.info("    extract failed on " + ui.path);
                 return;
             }
                         
             out = new PrintStream(argv[2]);
             if (out == null) {
-                System.out.println("    create failed on " + ui.path);
+                ParamsClass.logger.info("    create failed on " + ui.path);
             }
 
             gotLen = buffer.limit() - buffer.position();
@@ -50,10 +51,10 @@ public class ChmLibTest {
             }
             buffer.reset();
             out.close();
-            System.out.println("   finished");
+            ParamsClass.logger.info("   finished");
         }
         else {
-            System.out.println("   failed");
+            ParamsClass.logger.fatal("   failed");
         }
         
     }

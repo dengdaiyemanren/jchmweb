@@ -1,5 +1,6 @@
 package org.jchmlib.util;
 
+import Configuration.ParamsClass;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
@@ -18,7 +19,7 @@ public class BitUtil {
         int i;
         do {
             i = readBits(8);
-            System.out.println("8 bits = " + i + " == " + Integer.toBinaryString(i));
+            ParamsClass.logger.fatal("8 bits = " + i + " == " + Integer.toBinaryString(i));
         } while(bb.hasRemaining() || bitsBuffered > 0) ;
     }
 

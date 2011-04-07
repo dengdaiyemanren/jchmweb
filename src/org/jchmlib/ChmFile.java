@@ -6,6 +6,7 @@
 
 package org.jchmlib;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -284,36 +285,36 @@ public class ChmFile {
                     data = parseString(buf, len);
                     data = data.substring(0, data.length() -1);
                     topics_file = "/" + data;
-                    System.out.println("topics file: " + topics_file);
+                    ParamsClass.logger.info("topics file: " + topics_file);
                     break;
                 case 1:
                     data = parseString(buf, len);
                     data = data.substring(0, data.length() -1);
                     index_file = "/" + data;
-                    System.out.println("index file: " + index_file);
+                    ParamsClass.logger.info("index file: " + index_file);
                     break;
                 case 2:
                     data = parseString(buf, len);
                     data = data.substring(0, data.length() -1);
                     home_file = "/" + data;
-                    System.out.println("home file: " + home_file);
+                    ParamsClass.logger.info("home file: " + home_file);
                     break;
                 case 3:
                     title = ByteBufferHelper.parseString(buf, len, codec);
                     title = title.substring(0, title.length() -1);
-                    System.out.println("title: " + title);
+                    ParamsClass.logger.info("title: " + title);
                     break;
                 case 4:
                     detectedLCID = buf.getShort();
                     codec = EncodingHelper.findCodec(detectedLCID);
-                    // System.out.println("detectedLCID:" + Integer.toHexString(detectedLCID));
-                    System.out.println("Encoding: " + codec);
+                    // ParamsClass.logger.info("detectedLCID:" + Integer.toHexString(detectedLCID));
+                    ParamsClass.logger.info("Encoding: " + codec);
                     data = parseString(buf, len-2);
                     break;
                 case 9:
                     data = parseString(buf, len);
                     generator = data.substring(0, data.length() -1);
-                    System.out.println("Generator: " + generator);
+                    ParamsClass.logger.info("Generator: " + generator);
                     break;
                 default:
                     data = parseString(buf, len);
@@ -386,7 +387,7 @@ public class ChmFile {
                 }
 
                 if (lbuf == null) {
-                    // System.out.println("nothing!!!!!");
+                    // ParamsClass.logger.info("nothing!!!!!");
                     break;
                 }
                 
@@ -612,7 +613,7 @@ public class ChmFile {
         ByteBuffer buf = null;
         ui = resolveObject("/@contents");
         if (ui == null) return null;
-        // System.out.println(ui.path + " Size: " + ui.length);
+        // ParamsClass.logger.info(ui.path + " Size: " + ui.length);
         buf = retrieveObject(ui, 0, ui.length);
 
         tree = ChmTopicsTree.buildTopicsTree(buf, codec);
@@ -648,7 +649,7 @@ public class ChmFile {
             System.out.print("    ");
         }
 
-        System.out.println(tree.title + "\t" + tree.path);
+        ParamsClass.logger.info(tree.title + "\t" + tree.path);
 
         Iterator<ChmTopicsTree> it = tree.children.iterator();
         while (it.hasNext()) {

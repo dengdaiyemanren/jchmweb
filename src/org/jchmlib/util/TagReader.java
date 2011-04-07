@@ -1,5 +1,6 @@
 package org.jchmlib.util;
 
+import Configuration.ParamsClass;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.io.UnsupportedEncodingException;
@@ -80,7 +81,7 @@ public class TagReader
                 indexQuote = tagString.substring(indexEq + 2).indexOf("\"");
                 if (indexQuote < 0) {
                     // the hhc file seems broken
-                    System.out.println(tagString);
+                    ParamsClass.logger.info(tagString);
                     break;
                 }
                 value = tagString.substring(indexEq+2, indexEq+2+indexQuote);
@@ -90,7 +91,7 @@ public class TagReader
                 indexEq = tagString.indexOf("=");
             }
             if (ret.name.equalsIgnoreCase("param") && i!=2) {
-                System.out.println("Strange: "+istring);
+                ParamsClass.logger.info("Strange: "+istring);
             }
         }
         

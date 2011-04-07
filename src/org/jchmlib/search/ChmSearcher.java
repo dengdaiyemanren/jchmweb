@@ -1,5 +1,6 @@
 package org.jchmlib.search;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +13,7 @@ public class ChmSearcher {
         ChmFile chmFile = null;
 
         if (argv.length < 2) {
-            System.out.println("Usage: ChmSearcher <chmfile> <keyword> ...");
+            ParamsClass.logger.fatal("Usage: ChmSearcher <chmfile> <keyword> ...");
             return;
         }
 
@@ -21,13 +22,13 @@ public class ChmSearcher {
         chmFile.enumerate(ChmFile.CHM_ENUMERATE_USER, 
                 new SearchEnumerator(chmFile, argv[1], results));
         if (results == null) {
-            System.out.println("No match.");
+            ParamsClass.logger.info("No match.");
             return;
         }
         Iterator<String> iter = results.iterator();
         while (iter.hasNext()) {
             String path = iter.next();
-            System.out.println(path);
+            ParamsClass.logger.info(path);
         }
 
     }

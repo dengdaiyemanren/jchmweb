@@ -70,5 +70,21 @@
     properties which you can use, check the target you are overriding in the
     nbproject/build-impl.xml file. 
 
+    
+
+    <target name="-post-jar">
+        <mkdir dir="qqq"/>
+        <unzip dest="qqq">
+
+            <fileset dir="dist/">
+                <include name="**/*.jar"/>
+            </fileset>
+        </unzip>
+        <jar destfile="dist/jchmweb2AllInOne.jar" basedir="qqq" >
+        </jar>
+        <delete dir="qqq"/>
+        <delete dir="dist/lib"/>
+        <delete file="dist/jchmweb2.jar"/>
+    </target>
     -->
 </project>

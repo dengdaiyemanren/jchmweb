@@ -6,6 +6,7 @@
 
 package org.jchmlib.net;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -74,8 +75,9 @@ public class ChmWeb extends Thread {
 
     }
 
+    @Override
     public void run() {
-        System.out.println("Server started. Now open your browser "
+        ParamsClass.logger.info("Server started. Now open your browser "
                 + "and point it to\n\t http://"  
                 + listen_socket.getInetAddress().getHostName()
                 + ":" + listen_socket.getLocalPort());
@@ -97,11 +99,12 @@ public class ChmWeb extends Thread {
 
     public static void main(String[] argv) {
         if (argv.length < 2) {
-            System.out.println("usage: "
+            ParamsClass.logger.fatal("usage: "
                     + "java -Djchmweb.template=$JCHMLIB/bin "
                     + "org.jchmlib.net.ChmWeb <port> <chmfile>");
             return;
         }
+        ParamsClass PC=new ParamsClass();
         // Start running Server thread
         new ChmWeb(argv[0], argv[1]).start();
     }

@@ -1,5 +1,6 @@
 package app;
 
+import Configuration.ParamsClass;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -14,7 +15,7 @@ public class ChmExtract {
         ChmFile chmFile = null;
         
         if (argv.length < 1) {
-            System.out.println("Usage: ChmExtract <chmfile> <outdir>");
+            ParamsClass.logger.fatal("Usage: ChmExtract <chmfile> <outdir>");
             return;
         }
 
@@ -22,12 +23,11 @@ public class ChmExtract {
 
         chmFile = new ChmFile(argv[0]);
        
-        System.out.println("/:" + argv[0]);
+        ParamsClass.logger.info("/:" + argv[0]);
         chmFile.enumerate(ChmFile.CHM_ENUMERATE_ALL, 
                new Extractor(chmFile, argv[1]));
         time = System.currentTimeMillis();
-        System.out.println("    finished in " + (time - time_prev) + " ms");
-        System.out.println();
+        ParamsClass.logger.info("    finished in " + (time - time_prev) + " ms");
     }
 }
 
@@ -60,22 +60,22 @@ class Extractor implements ChmEnumerator {
         fullPath = fullPath.concat(ui.path);
 
         if (ui.length != 0) {
-//            System.out.println("--> " + fullPath);
+//            ParamsClass.logger.info("--> " + fullPath);
             try {
             	out = new PrintStream(fullPath);
             }catch (IOException e) {
-                System.out.println("   fail while opening the newly created file "
+                ParamsClass.logger.fatal("   fail while opening the newly created file "
                         + ui.path);
             }
             if (out == null) {
-            	System.out.println("   fail to open the newly created file "
+            	ParamsClass.logger.info("   fail to open the newly created file "
                         + ui.path);
                 return;
             }
 
             buffer = chmFile.retrieveObject(ui, 0, ui.length);
             if (buffer == null) {
-                System.out.println("    extract failed on " + ui.path);
+                ParamsClass.logger.fatal("    extract failed on " + ui.path);
                 return;
             }
             gotLen = buffer.limit() - buffer.position();

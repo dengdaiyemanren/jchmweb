@@ -1,5 +1,6 @@
 package org.jchmlib.search;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -19,7 +20,7 @@ import org.jchmlib.util.GBKHelper;
 public class IndexSearcher {
     public static void main(String[] argv) throws IOException {
         if (argv.length != 2) {
-            System.out.println("Usage: java app.ChmIndexSearcher "
+            ParamsClass.logger.fatal("Usage: java app.ChmIndexSearcher "
                     + "<chmfile> <object>");
         }
 
@@ -31,17 +32,17 @@ public class IndexSearcher {
         HashMap<String, String> results = searcher.getResults();
 
         if (results == null) {
-            System.out.println("Object <" + argv[1] + "> not found!");
+            ParamsClass.logger.info("Object <" + argv[1] + "> not found!");
             return;
         }
 
-        System.out.println("Object <" + argv[1] + "> found!");
+        ParamsClass.logger.info("Object <" + argv[1] + "> found!");
         Iterator<Entry<String, String>> it = results.entrySet().iterator();
         while (it.hasNext()) {
             Entry<String, String> entry = it.next();
             String url = entry.getKey();
             String topic = entry.getValue();
-            System.out.println(topic + ":\t\t " + url);
+            ParamsClass.logger.info(topic + ":\t\t " + url);
         }
     }
 
@@ -149,7 +150,7 @@ public class IndexSearcher {
 
                 // if (wholeWords && text.compareToIgnoreCase(word) == 0 ) {
                 if (GBKHelper.compare(text, word) == 0) {
-                    // System.out.println("!" + word + "!");
+                    // ParamsClass.logger.info("!" + word + "!");
                     ProcessWLC(wlc_count, wlc_size, wlc_offset);
                     return;
                 }
@@ -162,7 +163,7 @@ public class IndexSearcher {
                     ProcessWLC(wlc_count, wlc_size, wlc_offset);
                 }
             }
-            // System.out.println();
+            // ParamsClass.logger.info();
 
         }
         while (!wholeWords && word.startsWith(text)
@@ -312,12 +313,12 @@ public class IndexSearcher {
 
                 // if (text.compareToIgnoreCase(word) <= 0) {
                 if (GBKHelper.compare(text, word) <= 0) {
-                    // System.out.println("!!" + word);
+                    // ParamsClass.logger.info("!!" + word);
                     initialOffset = buf.getInt();
                     break;
                 }
 
-                // System.out.println(word);
+                // ParamsClass.logger.info(word);
                 buf.getInt();
                 buf.getShort();
             }

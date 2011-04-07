@@ -1,5 +1,6 @@
 package org.jchmlib.test;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -12,24 +13,24 @@ public class ChmEnumDir {
         ChmFile chmFile = null;
         
         if (argv.length < 1) {
-            System.out.println("Usage: ChmEnumDir <chmfile> [dir] [dir] ...");
+            ParamsClass.logger.fatal("Usage: ChmEnumDir <chmfile> [dir] [dir] ...");
             return;
         }
 
         chmFile = new ChmFile(argv[0]);
        
         if ( argv.length < 2) {
-            System.out.println("/:");
-            System.out.println(" spc\tstart\tlength\ttype\t\tname");
-            System.out.println(" ===\t=====\t======\t====\t\t====");
+            ParamsClass.logger.info("/:");
+            ParamsClass.logger.info(" spc\tstart\tlength\ttype\t\tname");
+            ParamsClass.logger.info(" ===\t=====\t======\t====\t\t====");
             chmFile.enumerateDir("/", ChmFile.CHM_ENUMERATE_ALL, 
                     new DirEnumerator(System.out));
         }
         else {
             for (int i = 1; i < argv.length; i++) {
-                System.out.println(argv[i] + ":");
-                System.out.println(" spc\tstart\tlength\tname");
-                System.out.println(" ===\t=====\t======\t====");
+                ParamsClass.logger.info(argv[i] + ":");
+                ParamsClass.logger.info(" spc\tstart\tlength\tname");
+                ParamsClass.logger.info(" ===\t=====\t======\t====");
                 chmFile.enumerateDir(argv[i], ChmFile.CHM_ENUMERATE_ALL, 
                         new DirEnumerator(System.out));
                 

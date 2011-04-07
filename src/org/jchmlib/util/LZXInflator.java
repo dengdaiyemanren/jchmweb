@@ -1,5 +1,6 @@
 package org.jchmlib.util;
 
+import Configuration.ParamsClass;
 import java.nio.*;
 
 /**
@@ -364,14 +365,14 @@ public class LZXInflator
                     case LZX_BLOCKTYPE_UNCOMPRESSED:
                         intel_started = 1; // because we can't assume otherwise
                         // TODO: I'm not so sure.
-                        // System.out.println("Danger!");
+                        // ParamsClass.logger.info("Danger!");
                         inbuf.order(ByteOrder.LITTLE_ENDIAN);
                         R0 = inbuf.getInt();
                         R1 = inbuf.getInt();
                         R2 = inbuf.getInt();                            
                         break;
                     default:
-                        System.out.println("block type " + block_type);
+                        ParamsClass.logger.info("block type " + block_type);
                         return null;
                 }
             }
@@ -387,7 +388,7 @@ public class LZXInflator
                 window_posn &= window_size - 1;
                 // runs can't straddle the window wraparound
                 if ((window_posn + this_run) > window_size) {
-                    System.out.println("(window_posn + this_run) > window_size");
+                    ParamsClass.logger.info("(window_posn + this_run) > window_size");
                     return null;
                 }
                 
@@ -455,7 +456,7 @@ public class LZXInflator
                             runsrc_offset  = (int)(rundest_offset - match_offset);
                             window_posn += match_length;
                             if (window_posn > window_size) {
-                                System.out.println("window_posn > window_size");
+                                ParamsClass.logger.info("window_posn > window_size");
                                 return null;
                             }
                             this_run -= match_length;
@@ -473,7 +474,7 @@ public class LZXInflator
                         break;
                         
                     case LZX_BLOCKTYPE_ALIGNED:
-                        // System.out.println("Aligned:");
+                        // ParamsClass.logger.info("Aligned:");
                         while (this_run > 0) {
                             main_element = readHuffSym(maintree_table,
                                 maintree_len,
@@ -556,7 +557,7 @@ public class LZXInflator
                             runsrc_offset  = rundest_offset - (int)match_offset;
                             window_posn += match_length;
                             if (window_posn > window_size) {
-                                System.out.println("window_posn "+ window_posn +
+                                ParamsClass.logger.info("window_posn "+ window_posn +
                                     " > window_size 2 "+ window_size);
                                 return null;
                             }
@@ -582,7 +583,7 @@ public class LZXInflator
                         break;
                         
                     default: 
-                      System.out.println("default::::null" + block_type);
+                      ParamsClass.logger.info("default::::null" + block_type);
                         return null; // might as well
                     
                 }
@@ -591,13 +592,13 @@ public class LZXInflator
         }
         
         if (togo != 0) {
-          System.out.println("togo != 0");
+          ParamsClass.logger.info("togo != 0");
             return null;
         }
         
         int start = (int)((window_posn==0) ? window_size : window_posn) - outLen;
         
-        // System.out.println("LZXInflator.decompress\t " + start + " + " + outLen);
+        // ParamsClass.logger.info("LZXInflator.decompress\t " + start + " + " + outLen);
         outbuf.mark();
         for (num = 0; num < outLen; num++) {
             outbuf.put(window[start+num]);
@@ -607,7 +608,7 @@ public class LZXInflator
         // intel E8 decoding
         if ((frames_read++ < 32768) && intel_filesize != 0) {
             // TODO:
-            System.out.println("Intel E8 decoding not done. Broken");
+            ParamsClass.logger.info("Intel E8 decoding not done. Broken");
         }
         
         return outbuf;
