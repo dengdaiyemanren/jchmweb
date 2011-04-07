@@ -1,5 +1,6 @@
 package org.jchmlib.test;
 
+import Configuration.ParamsClass;
 import java.io.IOException;
 
 import org.jchmlib.ChmFile;
@@ -8,15 +9,15 @@ import org.jchmlib.ChmUnitInfo;
 public class ChmFind {
 	public static void main(String[] argv) throws IOException {
 		if (argv.length != 2) {
-			System.out.println("Usage: ChmFind <chmfile> <object>");
+			ParamsClass.logger.fatal("Usage: ChmFind <chmfile> <object>");
 		}
 		ChmFile chmFile = new ChmFile(argv[0]);
 		ChmUnitInfo ui = chmFile.resolveObject(argv[1]);
 		if (ui == null) {
-			System.out.println("Object <" + argv[1] + "> not found!");
+			ParamsClass.logger.info("Object <" + argv[1] + "> not found!");
 		}
 		else {
-			System.out.println("Object <" + argv[1] + "> found!");
+			ParamsClass.logger.info("Object <" + argv[1] + "> found!");
 		}
 	}
 }

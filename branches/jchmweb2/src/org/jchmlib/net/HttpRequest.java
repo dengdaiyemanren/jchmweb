@@ -82,7 +82,7 @@ public class HttpRequest {
 			if (line_buffer == null)
 				return;
 		} while (line_buffer.length() == 0);
-        // System.out.println(line_buffer);
+        // ParamsClass.logger.info(line_buffer);
 
 		String[] strs = Pattern.compile(" ").split(line_buffer);
 		if (strs == null || strs.length != 3
@@ -96,7 +96,7 @@ public class HttpRequest {
 		// loop through and discard rest of request
 		do {
 			line_buffer = in.readLine();
-            // System.out.println(line_buffer);
+            // ParamsClass.logger.info(line_buffer);
 		} while (line_buffer != null && line_buffer.length() > 0);
 	}
 

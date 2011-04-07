@@ -104,7 +104,7 @@ public class ChmTopicsTree {
                 && pathToTitle.containsKey(path.toLowerCase())) {
             result = (String) pathToTitle.get(path.toLowerCase());
         }
-        // System.out.println(path + " -> " + result);
+        // ParamsClass.logger.info(path + " -> " + result);
         return result;
     }
 

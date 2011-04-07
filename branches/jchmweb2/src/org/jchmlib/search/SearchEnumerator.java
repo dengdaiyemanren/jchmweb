@@ -101,7 +101,7 @@ public class SearchEnumerator implements ChmEnumerator {
 				sb.append("\\E");
 				if (sb.length() > 4) {
 					keywords.add(new String(sb));
-					// System.out.println(sb);
+					// ParamsClass.logger.info(sb);
 				}
 				sb = new StringBuilder();
 			}
@@ -110,7 +110,7 @@ public class SearchEnumerator implements ChmEnumerator {
 				sb.append(' ');
 			} else if (!quoting && sb.length() != 0) {
 				keywords.add(new String(sb));
-				// System.out.println(sb);
+				// ParamsClass.logger.info(sb);
 				sb = new StringBuilder();
 			}
 		} else {
@@ -119,7 +119,7 @@ public class SearchEnumerator implements ChmEnumerator {
 	}
 	if (sb.length() != 0) {
 		keywords.add(new String(sb));
-		// System.out.println(sb);
+		// ParamsClass.logger.info(sb);
 	}
 
         toManyResults = false;

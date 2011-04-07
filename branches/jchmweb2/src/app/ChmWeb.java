@@ -7,6 +7,7 @@
 
 package app;
 
+import Configuration.ParamsClass;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -47,10 +48,10 @@ public class ChmWeb extends Thread
             //create new ServerSocket
             listen_socket = new ServerSocket (servPort);
             if (listen_socket == null) {
-                System.out.println("Could not bind to port:" + servPort);
+                ParamsClass.logger.fatal("Could not bind to port:" + servPort);
                 return;
             }
-            System.out.println("Server started. Now open your browser " +
+            ParamsClass.logger.info("Server started. Now open your browser " +
                 "and type\n\t http://localhost:" + servPort);
         }
         catch(IOException e) {e.printStackTrace();}
@@ -58,6 +59,7 @@ public class ChmWeb extends Thread
         //Start running Server thread
         this.start();
     }
+    @Override
     public void run()
     {
         try{
@@ -69,7 +71,7 @@ public class ChmWeb extends Thread
                 //the port.
                 
                 Socket client_socket = listen_socket.accept();
-                // System.out.println("connection request received");
+                // ParamsClass.logger.info("connection request received");
                 new Connection (client_socket, chmFile);
             }
         }
@@ -81,7 +83,7 @@ public class ChmWeb extends Thread
     {
         if (argv.length < 2)
         {
-            System.out.println("usage: java ChmWeb <port> <chm filename>");
+            ParamsClass.logger.fatal("usage: java ChmWeb <port> <chm filename>");
             return;
         }
         new ChmWeb(argv[0], argv[1]);
@@ -177,7 +179,7 @@ class Connection extends Thread
                 queryString = req.substring(indexQueryString);
             }
             requestedFile = req.substring(0, indexQueryString);
-            // System.out.println(requestedFile);
+            // ParamsClass.logger.info(requestedFile);
 
             if (requestedFile.startsWith("/@")) {
                 deliverSpecial();
@@ -189,7 +191,7 @@ class Connection extends Thread
                 deliverFile();
             }
         }
-        catch (IOException e) {System.out.println(e);}
+        catch (IOException e) {ParamsClass.logger.fatal(e);}
         finally
         {
             try {client.close();}
@@ -379,12 +381,12 @@ class Connection extends Thread
             if (index2 < 0) index2 = queryString.length();
             if (index1  > index2) return;
             String key = queryString.substring(index1, index2);
-            // System.out.println(key);
+            // ParamsClass.logger.info(key);
             try {
                 HashMap<String, String> results 
                     = chmFile.indexSearch(key, true, false);
                 if (results == null) {
-                    // System.out.println("no match found for " + key);
+                    // ParamsClass.logger.info("no match found for " + key);
                 }
                 else {
                     Iterator<String> it = results.keySet().iterator();
@@ -394,7 +396,7 @@ class Connection extends Thread
                         sendString("<p><a class=\"el\" href=\"" + url +
                                 "\" target=\"basefrm\">" +
                                 topic + "</a></p>");
-                        // System.out.println(topic + ":\t\t " + url);
+                        // ParamsClass.logger.info(topic + ":\t\t " + url);
                     }
                 }
             } catch (IOException e) {

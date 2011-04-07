@@ -38,7 +38,7 @@ class ChmItsfHeader {
         c.add(Calendar.SECOND, 0x3DB0C239);
         timestamp = c.getTime();
         //DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        //System.out.println("Last modified: " + f.format(timestamp));
+        //ParamsClass.logger.info("Last modified: " + f.format(timestamp));
 
         lang_id        = bb.getInt();
         bb.get(new byte[32]);
